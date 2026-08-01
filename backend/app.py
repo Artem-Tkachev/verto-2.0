@@ -40,6 +40,8 @@ def registration():
     result = cursor.fetchone()
 
     if result is not None:
+        conn.commit()
+        conn.close()
         return jsonify({"error": "this user is already exist"}), 409
 
     
@@ -52,7 +54,33 @@ def registration():
 
 @app.route('/login')
 def login():
+    data = request.get_json()
+    username = data.get("username")
+    password = data.get("password")
+
+    if not username or not password:
+            return jsonify({"error": "username and password are required"}), 400
     
+    conn = sqlite3.connect("verto.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    conn.execute("SELECT * FROM users WHERE username = (username) ")
+    result = cursor.fetchone()
+    
+    if not result:
+        conn.commit()
+        conn.close()
+        return jsonify({"error": "this user is not exist"}), 409
+
+    
+    conn.execute("SELECT * FROM users WHERE username = (username) AND password = (password)")
+    result = cursor.fetchone()
+
+    if not result:
+        conn.commit()
+        conn.close()
+        return jsonify({"error": "username or password is "}) 
 
 if __name__ == '__main__':
     app.run(debug=True)
