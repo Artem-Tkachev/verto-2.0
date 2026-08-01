@@ -23,7 +23,7 @@ conn.close()
 def home():
     return jsonify({"message": "Welcome to the Flask API!"})
 
-@app.route('/registration')
+@app.route('/registration', methods=['POST'])
 def registration():
     data = request.get_json()
     username = data.get("username")
@@ -36,23 +36,22 @@ def registration():
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
 
-    conn.execute("SELECT * FROM users WHERE username = (username) ")
+    cursor.execute(f"SELECT * FROM users WHERE username = '{username}'")
     result = cursor.fetchone()
 
     if result is not None:
-        conn.commit()
         conn.close()
         return jsonify({"error": "this user is already exist"}), 409
 
     
-    conn.execute("INSERT INTO users (username, password, created_at) VALUES ((username), (password), datetime('now'))")
+    cursor.execute(f"INSERT INTO users (username, password, created_at) VALUES ('{username}', '{password}', datetime('now')) ")
         
     conn.commit()
     conn.close()
     
-    return jsonify({"massege": "new user registerd"}), 201
+    return jsonify({"message": "new user registerd"}), 201
 
-@app.route('/login')
+@app.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
     username = data.get("username")
@@ -65,22 +64,18 @@ def login():
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
 
-    conn.execute("SELECT * FROM users WHERE username = (username) ")
+    cursor.execute(f"SELECT * FROM users WHERE username = '{username}' ")
     result = cursor.fetchone()
-    
+    conn.close()
+
     if not result:
-        conn.commit()
-        conn.close()
         return jsonify({"error": "this user is not exist"}), 409
-
     
-    conn.execute("SELECT * FROM users WHERE username = (username) AND password = (password)")
-    result = cursor.fetchone()
-
-    if not result:
-        conn.commit()
-        conn.close()
-        return jsonify({"error": "username or password is "}) 
+    if result['password'] != password:
+        return jsonify({"error": "incorrect password"}), 401
+    
+    return jsonify({"message": "user is logged in"}), 200
+    
 
 if __name__ == '__main__':
     app.run(debug=True)
