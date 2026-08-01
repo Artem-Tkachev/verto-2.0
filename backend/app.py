@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 import sqlite3
 
 app =  Flask(__name__)
@@ -14,7 +14,6 @@ cursor.execute("CREATE TABLE IF NOT EXISTS favorites (id INTEGER PRIMARY KEY, us
 cursor.execute("CREATE TABLE IF NOT EXISTS challenges (id INTEGER PRIMARY KEY, from_user_id INTEGER, to_user_id INTEGER, route_id INTEGER, status TEXT, FOREIGN KEY (from_user_id) REFERENCES users(id), FOREIGN KEY (to_user_id) REFERENCES users(id), FOREIGN KEY (route_id) REFERENCES routes(id))") #db for challenges
 cursor.execute("CREATE TABLE IF NOT EXISTS workouts (id INTEGER PRIMARY KEY, user_id INTEGER, title TEXT, type TEXT, distance FLOAT, duration INTEGER, route_id INTEGER, created_at DATETIME, FOREIGN KEY (user_id) REFERENCES users(id), FOREIGN KEY (route_id) REFERENCES route(id))") #db for workouts
 
-
 conn.commit()
 conn.close()
 
@@ -24,7 +23,36 @@ conn.close()
 def home():
     return jsonify({"message": "Welcome to the Flask API!"})
 
+@app.route('/registration')
+def registration():
+    data = request.get_json()
+    username = data.get("username")
+    password = data.get("password")
 
+    if not username or not password:
+        return jsonify({"error": "username and password are required"}), 400
+
+    conn = sqlite3.connect("verto.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    conn.execute("SELECT * FROM users WHERE username = (username) ")
+    result = cursor.fetchone()
+
+    if result is not None:
+        return jsonify({"error": "this user is already exist"}), 409
+
+    
+    conn.execute("INSERT INTO users (username, password, created_at) VALUES ((username), (password), datetime('now'))")
+        
+    conn.commit()
+    conn.close()
+    
+    return jsonify({"massege": "new user registerd"}), 201
+
+@app.route('/login')
+def login():
+    
 
 if __name__ == '__main__':
     app.run(debug=True)
