@@ -1,7 +1,10 @@
-from flask import Flask, jsonify, request  # type: ignore
-from flask_cors import CORS  # type: ignore
+from flask import Flask, jsonify, request
+from flask_cors import CORS
 import sqlite3
+import jwt
+import datetime
 
+SECRET_KEY = "123QWEASD"
 
 app =  Flask(__name__)
 CORS(app)
@@ -21,6 +24,8 @@ conn.commit()
 conn.close()
 
 ### all tables created 
+
+
 
 @app.route('/')
 def home():
@@ -76,8 +81,17 @@ def login():
     
     if result['password'] != password:
         return jsonify({"error": "incorrect password"}), 401
+
+    token = jwt.encode(
+        {
+            "user_id": result['id'],
+            "exp": datetime.datetime.now(datetime.UTC) + datetime.timedelta(hours=1)
+        },
+        SECRET_KEY,
+        algorithm="HS256"
+    )
     
-    return jsonify({"message": "user is logged in"}), 200
+    return jsonify({"message": "user is logged in", "token": token}), 200
     
 
 if __name__ == '__main__':
