@@ -1,14 +1,16 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 function Login(){
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
   
   async function loginSubmit(e){
     e.preventDefault();
     
-    const response = await fetch("http://localhost:5000/login", {
+    const response = await fetch("http://localhost:5000/api/login", {
       method: "POST",
       headers: { "Content-Type": "application/json"},
       body: JSON.stringify({username: username, password: password})
@@ -18,6 +20,8 @@ function Login(){
     console.log(data);
     if(response.ok){
       setMessage(data.message);
+      localStorage.setItem("token", data.token);
+      navigate("/dashboard");
     }
     else{
       setMessage(data.error);
