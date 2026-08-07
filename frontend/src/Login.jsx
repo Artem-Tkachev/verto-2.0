@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { Input, Button } from "./UIComponents";
 
 function Login(){
   const [username, setUsername] = useState("");
@@ -31,9 +32,9 @@ function Login(){
   return (
     <div>
       <form onSubmit={loginSubmit}>
-        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-        <input type="text" value={password} onChange={(e) => setPassword(e.target.value)} />
-        <button type="submit">login</button>
+        <Input placeholder="username" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+        <Input placeholder="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <Button type="submit" text="login"/>
       </form>
       <p>{message}</p>
     </div>

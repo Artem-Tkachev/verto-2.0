@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router";
-import { Input } from "./UIComponents";
+import { Input, Button } from "./UIComponents"; 
 import './UIComponents.css'
 
 function Registration(){
@@ -30,19 +30,33 @@ function Registration(){
   }
 
   return (
-    <div class="login-body">
-      <div class="header">
-        <div><h1 class="header-text">Create your account</h1><br/></div>
-        <div><h2>Join Verto to start tracking your elite perfomance</h2><br/></div>
+    <div className="login-body">
+      <div className="header">
+        <div><h1 className="header-text-1 text">Create your account</h1></div>
+        <div><h2 className="header-text-2 text">Join Ver  to to start tracking your elite perfomance</h2><br/></div>
       </div>
-      <div class="login-form">
-        <form onSubmit={RegSubmit} >
-          <label>Full name</label><br/>
-          <Input placeholder="John Doe" type="text" value={username} onChange={(e) => setUsername(e.target.value)} /><br/>
-          <label>Password</label><br/>
-          <input type="text" value={password} onChange={(e) => setPassword(e.target.value)} /><br/>
-          <button type="submit">Register Now</button>
+      <div>
+        <form className="login-form" onSubmit={RegSubmit}>
+          <div>
+            <label className="inp-label">Full Name</label><br/>
+            <Input placeholder="John Doe" type="text" value={username} onChange={(e) => setUsername(e.target.value)}/><br/>
+          </div>
+          <div>
+          <label className="inp-label">Password</label><br/>
+          <Input placeholder="Min. 8 characters" type="password" value={password} onChange={(e) => setPassword(e.target.value)}/><br/>
+          </div>
+          <div>
+            <label className="inp-label">Confirm Password</label><br/>
+            <Input placeholder="Repeat your password"/>
+          </div>
+          
+          <input className="inp-radio" type="radio"/> <label>I agree with terms and shi</label>
+          <Button text="Register Now" type="submit" Class="reg-button"/>
         </form>
+      </div>
+      <div className="buttom-text">
+        <p>Already have an account?</p>
+        <button>Sign in</button>
       </div>
       <p>{message}</p>
     </div>

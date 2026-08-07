@@ -1,13 +1,18 @@
 import "./UIComponents.css";
 
-export function Input({placeholder, type, onChange, variant}){
+export function Input({placeholder, type, onChange, variant="primary", label}){
     return(
-        <input placeholder={placeholder} type={type} onChange={onChange} className={'btn btn-${variant}'}/>
+        <div>
+            <label>{label}</label>
+            <input placeholder={placeholder} type={type} onChange={onChange} className={`inp inp-${variant}`}/>
+        </div>
     );
 }
 
-export function LRForm(){
+export function Button({variant ="primary", text, Class="", type="submit"}){
     return(
-        <form ></form>
+        <button className={`btn btn-${variant} ${Class}`} type={type}>
+            {text}
+        </button>
     )
 } 
