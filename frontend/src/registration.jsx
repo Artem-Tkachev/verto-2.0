@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Navigate, useNavigate } from "react-router";
-import { Input, Button } from "./UIComponents"; 
+import { Navigate, useNavigate, Link } from "react-router";
+import { Input, Button, PasswordInput } from "./UIComponents"; 
+import { Mail, User, EyeIcon, EyeOffIcon, LockKeyhole } from "lucide-react";
 import './UIComponents.css'
 
 function Registration(){
@@ -37,26 +38,16 @@ function Registration(){
       </div>
       <div>
         <form className="login-form" onSubmit={RegSubmit}>
-          <div>
-            <label className="inp-label">Full Name</label><br/>
-            <Input placeholder="John Doe" type="text" value={username} onChange={(e) => setUsername(e.target.value)}/><br/>
-          </div>
-          <div>
-          <label className="inp-label">Password</label><br/>
-          <Input placeholder="Min. 8 characters" type="password" value={password} onChange={(e) => setPassword(e.target.value)}/><br/>
-          </div>
-          <div>
-            <label className="inp-label">Confirm Password</label><br/>
-            <Input placeholder="Repeat your password"/>
-          </div>
-          
-          <input className="inp-radio" type="radio"/> <label>I agree with terms and shi</label>
+          <Input placeholder="John Doe" type="text" icon={User} label="Full Name" value={username} onChange={(e) => setUsername(e.target.value)}/>
+          <PasswordInput placeholder="Min. 8 characters" type="password" icon={LockKeyhole} label="Password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+          <PasswordInput placeholder="Repeat your password" type="password" icon={LockKeyhole} label="Confirm Password"/>
+          <input className="inp-radio" type="radio" name="radio"/> <label htmlFor="radio" className="body-text">I agree with terms and shi</label>
           <Button text="Register Now" type="submit" Class="reg-button"/>
         </form>
       </div>
-      <div className="buttom-text">
-        <p>Already have an account?</p>
-        <button>Sign in</button>
+      <div className="bottom-text">
+        <p className="body-text">Already have an account?</p>
+        <Link className="link-text" onClick={navigate("/login")}>Sign in</Link>
       </div>
       <p>{message}</p>
     </div>

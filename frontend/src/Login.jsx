@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, Link } from "react-router";
 import { Input, Button } from "./UIComponents";
 
 function Login(){
@@ -36,6 +36,7 @@ function Login(){
         <Input placeholder="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         <Button type="submit" text="login"/>
       </form>
+      <Link to="/register">register</Link>
       <p>{message}</p>
     </div>
   )

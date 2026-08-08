@@ -4,6 +4,10 @@ body{
     place-items: center;
 }
 
+.body-text{
+    color: var(--color-neutral-900);
+}
+
 .login-body{
     padding-top: 100px;
 }
@@ -25,11 +29,18 @@ body{
     letter-spacing: -0.7px;
 }
 
+.inp-group{
+    width: 100%;
+    padding-bottom: 24px;
+}
+
 .inp {
     width: 100%;
     border-radius: 8px;
     padding: 12px 24px;
+    padding-left: 52px;
     display: flex;
+    color: var(--color-neutral-900);
 }
 
 .inp-primary {
@@ -41,7 +52,6 @@ body{
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-body);
     color: var(--color-neutral-400);
-
 }
 
 .inp-primary:hover {
@@ -59,6 +69,28 @@ body{
     font-size: var(--font-size-label);
     color: var(--color-neutral-800);
     padding-left: 4px;
+}
+
+.inp-icon{
+    position: absolute;
+    top: 25%;
+}
+
+.inp-icon-left{
+    left: 16px;
+    pointer-events: none;
+    color: var(--color-neutral-500);
+}
+
+.inp-icon-right{
+    right: 16px;
+    color: var(--color-neutral-500);
+}
+
+.inp-wrapper{
+    position: relative;
+    display: inline-block;
+    width: 100%;
 }
 
 .btn{
@@ -84,7 +116,19 @@ body{
     display: inline-block;
 }
 
+.bottom-text{
+    place-items: center;
+    display: flex;
+}
 
+.link-text{
+    color: var(--color-primary-700);
+    padding-right: 6px;
+}
+
+.link-text:hover{
+    color: var(--color-primary-900);
+}
 
 
 .login-form{
