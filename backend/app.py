@@ -36,9 +36,13 @@ def registration():
     data = request.get_json()
     username = data.get("username")
     password = data.get("password")
+    confPassword = data.get("confPassword")
 
     if not username or not password:
-        return jsonify({"error": "username and password are required"}), 400
+        return jsonify({"error": "Username and passwords are required", "fields": ["username", "password", "confPassword"]}), 400
+
+    if password != confPassword:
+        return jsonify({"error": "Passwords do not match", "fields": ["password", "confPassword"]}), 400
 
     conn = sqlite3.connect("verto.db")
     conn.row_factory = sqlite3.Row
@@ -49,7 +53,7 @@ def registration():
 
     if result is not None:
         conn.close()
-        return jsonify({"error": "this user is already exist"}), 409
+        return jsonify({"error": "This user is already exist", "fields": ["username"]}), 409
 
     
     cursor.execute(f"INSERT INTO users (username, password, created_at) VALUES ('{username}', '{password}', datetime('now')) ")
@@ -57,7 +61,7 @@ def registration():
     conn.commit()
     conn.close()
     
-    return jsonify({"message": "new user registerd"}), 201
+    return jsonify({"message": "New user registerd"}), 201
 
 @app.route('/api/login', methods=['POST'])
 def login():
@@ -66,7 +70,7 @@ def login():
     password = data.get("password")
 
     if not username or not password:
-            return jsonify({"error": "username and password are required"}), 400
+            return jsonify({"error": "Username and password are required", "fields": ["username", "password"]}), 400
     
     conn = sqlite3.connect("verto.db")
     conn.row_factory = sqlite3.Row
@@ -77,10 +81,10 @@ def login():
     conn.close()
 
     if not result:
-        return jsonify({"error": "this user is not exist"}), 409
+        return jsonify({"error": "This user is not exist", "fields": ["username"]}), 409
     
     if result['password'] != password:
-        return jsonify({"error": "incorrect password"}), 401
+        return jsonify({"error": "Incorrect password", "fields": ["password"]}), 401
 
     token = jwt.encode(
         {
@@ -91,7 +95,7 @@ def login():
         algorithm="HS256"
     )
     
-    return jsonify({"message": "user is logged in", "token": token}), 200
+    return jsonify({"message": "User is logged in", "token": token}), 200
 
 @app.route('/api/workouts', methods=['POST'])
 def create_workout():

@@ -7,6 +7,7 @@ import './UIComponents.css'
 function Registration(){
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confPassword, setConfPassword] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
   
@@ -16,7 +17,7 @@ function Registration(){
     const response = await fetch("http://localhost:5000/api/register", {
       method: "POST",
       headers: { "Content-Type": "application/json"},
-      body: JSON.stringify({username: username, password: password})
+      body: JSON.stringify({username: username, password: password, confPassword: confPassword})
     });
 
     const data = await response.json();
@@ -40,16 +41,17 @@ function Registration(){
         <form className="login-form" onSubmit={RegSubmit}>
           <Input placeholder="John Doe" type="text" icon={User} label="Full Name" value={username} onChange={(e) => setUsername(e.target.value)}/>
           <PasswordInput placeholder="Min. 8 characters" type="password" icon={LockKeyhole} label="Password" value={password} onChange={(e) => setPassword(e.target.value)}/>
-          <PasswordInput placeholder="Repeat your password" type="password" icon={LockKeyhole} label="Confirm Password"/>
+          <PasswordInput placeholder="Repeat your password" type="password" icon={LockKeyhole} label="Confirm Password" onChange={(e) => setConfPassword(e.target.value)}/>
           <input className="inp-radio" type="radio" name="radio"/> <label htmlFor="radio" className="body-text">I agree with terms and shi</label>
           <Button text="Register Now" type="submit" Class="reg-button"/>
+          <div className="bottom-text">
+            <p className="body-text">Already have an account?</p>
+            <Link className="link-text" to="/login">Sign in</Link>
+          </div>
         </form>
       </div>
-      <div className="bottom-text">
-        <p className="body-text">Already have an account?</p>
-        <Link className="link-text" onClick={navigate("/login")}>Sign in</Link>
-      </div>
-      <p>{message}</p>
+      
+      <p className="body-text">{message}</p>
     </div>
   )
 }

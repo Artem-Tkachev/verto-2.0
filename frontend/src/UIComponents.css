@@ -64,6 +64,20 @@ body{
     outline: none;
 }
 
+.inp-error, .inp-error:hover, .inp-error:focus{
+    border: 1px solid var(--color-error-500);
+}
+
+.error-body{
+    display: block;
+    text-align: left;
+}
+
+.error-text{
+    color: var(--color-error-500);
+    padding-bottom: 12px;
+}
+
 .inp-label{
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-label);
@@ -95,17 +109,29 @@ body{
 
 .btn{
     width: 100%;
-    background-color: var(--color-primary-700);
     border-radius: 8px;
     padding: 12px 24px;
 }
 
-.btn{
+.btn-primary{
+    background-color: var(--color-primary-700);
     color: var(--color-neutral-0);
 }
 
 .btn-primary:hover{
     background-color: var(--color-primary-900);
+}
+
+.btn-secondary{
+    display: block;
+    text-align: center;
+    background-color: var(--color-neutral-0);
+    color: var(--color-neutral-900);
+    border: 1px solid var(--color-neutral-300);
+}
+
+.btn-secondary:hover{
+    background-color: var(--color-neutral-50);
 }
 
 .reg-button{
@@ -119,11 +145,26 @@ body{
 .bottom-text{
     place-items: center;
     display: flex;
+    padding-top: 12px;
+}
+
+.bottom-body{
+    width: 100%;
+}
+
+.bottom-reg-text{
+    display: block;
+    text-align: center;
+    margin-top: 36px;
+    padding-top: 24px;
+    padding-bottom: 12px;
+    color: var(--color-neutral-700);
+    border-top: 1px solid var(--color-neutral-300);
 }
 
 .link-text{
     color: var(--color-primary-700);
-    padding-right: 6px;
+    padding-left: 4px;
 }
 
 .link-text:hover{
@@ -139,6 +180,7 @@ body{
     border-radius: 12px;
     margin: 20px;
     padding: 24px;
+    padding-bottom: 12px;
     background-color: var(--color-neutral-0);
 
 }

@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./UIComponents.css";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 
-export function Input({placeholder, type, onChange, variant="primary", label, icon: Icon}){
+export function Input({placeholder, type, onChange, variant="primary", label, icon: Icon , className=""}){
     return(
         <div className="inp-group">
             <label className="inp-label">{label}</label><br/>
@@ -11,14 +11,14 @@ export function Input({placeholder, type, onChange, variant="primary", label, ic
                 <input 
                 placeholder={placeholder}
                 type={type} onChange={onChange} 
-                className={`inp inp-${variant}`}
+                className={`inp inp-${variant} ${className}`}
                 />
             </div>
         </div>
     );
 }
 
-export function PasswordInput({placeholder, type, onChange, variant="primary", label, icon: Icon}){
+export function PasswordInput({placeholder, type, onChange, variant="primary", label, icon: Icon , className=""}){
     const [visible, setvisible] = useState(false);
     return(
         <div className="inp-group">
@@ -28,7 +28,7 @@ export function PasswordInput({placeholder, type, onChange, variant="primary", l
                 <input 
                 placeholder={placeholder}
                 type={visible ? "text" : "password"} onChange={onChange} 
-                className={`inp inp-${variant}`}
+                className={`inp inp-${variant} ${className}`}
                 />
                 <button type="button" className="inp-icon inp-icon-right" onClick={() => setvisible(v => !v)}>
                     {visible ? <EyeOffIcon/> : <EyeIcon/>}
