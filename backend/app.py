@@ -18,6 +18,9 @@ cursor.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, userna
 cursor.execute("CREATE TABLE IF NOT EXISTS routes (id INTEGER PRIMARY KEY, name TEXT, map_data JSON, created_by INTEGER, FOREIGN KEY (created_by) REFERENCES users(id))") #db for routes
 cursor.execute("CREATE TABLE IF NOT EXISTS favorites (id INTEGER PRIMARY KEY, user_id INTEGER, route_id INTEGER, FOREIGN KEY (user_id) REFERENCES users(id), FOREIGN KEY (route_id) REFERENCES routes(id))") #db for favorites
 cursor.execute("CREATE TABLE IF NOT EXISTS challenges (id INTEGER PRIMARY KEY, from_user_id INTEGER, to_user_id INTEGER, route_id INTEGER, status TEXT, FOREIGN KEY (from_user_id) REFERENCES users(id), FOREIGN KEY (to_user_id) REFERENCES users(id), FOREIGN KEY (route_id) REFERENCES routes(id))") #db for challenges
+
+
+
 cursor.execute("CREATE TABLE IF NOT EXISTS workouts (id INTEGER PRIMARY KEY, user_id INTEGER, title TEXT, type TEXT, distance FLOAT, duration INTEGER, route_id INTEGER, date DATETIME, created_at DATETIME, FOREIGN KEY (user_id) REFERENCES users(id), FOREIGN KEY (route_id) REFERENCES route(id))") #db for workouts.
 
 conn.commit()
@@ -100,42 +103,75 @@ def login():
 @app.route('/api/workouts', methods=['POST'])
 def create_workout():
     data = request.get_json()
-    title = data.get("title")
-    workout_type = data.get("type")
-    distance = data.get("distance")
-    duration = data.get("duration")
-    route_id = data.get("route_id")
-    workout_date = data.get("workout_date")
-    created_at = data.get("created_at")
+    title = data.get("workoutName")
+    workout_type = data.get("workoutType")
+    workout_date = data.get("workoutDate")
+    distance = data.get("workoutDistance")
+    duration = data.get("workoutDuration")
+    #route_id = data.get("route_id")
+    route_id = None
 
     #if not title or not workout_type 
 
     #todoo if Null return error
 
     auth_header = request.headers.get("Authorization")
-    token = auth_header.split(" ")[1]
 
     if not auth_header:
         return jsonify({"error": "token is not provided"}), 401
+    
+    token = auth_header.split(" ")[1]
 
     try:
         decoded = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
         user_id = decoded["user_id"]
     except jwt.ExpiredSignatureError:
         return jsonify({"error": "token is expired"}), 401
-    except jwt.InvalidSignatureError:
+    except jwt.InvalidTokenError:
         return jsonify({"error": "token is invalid"}), 401
     
+    
+            
     conn = sqlite3.connect("verto.db")
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
 
-    cursor.execute(f"INSERT INTO workouts (user_id, title, type, distance, duration, route_id, workout_date, created_at) values ('{user_id}', '{title}', '{workout_type}', '{distance}', '{duration}', '{route_id}', '{workout_date}', datetime('now'))")
+    cursor.execute(f"INSERT INTO workouts (user_id, title, type, distance, duration, route_id, date, created_at) values ('{user_id}', '{title}', '{workout_type}', '{distance}', '{duration}', '{route_id}', '{workout_date}', datetime('now'))")
 
-    conn.commit
-    conn.close
+    conn.commit()
+    conn.close()
 
     return jsonify({"message": "workout successfully uploaded"}), 200
+
+@app.route('/api/workouts/mine')
+def show_workouts():
+    data = request.get_json()
+
+    auth_header = request.headers.get("Authorization")
+    
+    if not auth_header:
+        return jsonify({"error": "token is not provided"}), 401
+    
+    token = auth_header.split(" ")[1]
+
+    try:
+        decoded = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+        user_id = decoded["user_id"]
+    except jwt.ExpiredSignatureError:
+        return jsonify({"error": "token is expired"}), 401
+    except jwt.InvalidTokenError:
+        return jsonify({"error": "token is invalid"}), 401
+
+    conn = sqlite3.connect("verto.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    cursor.execute(f"SELECT * FROM workouts WHERE user_id = {user_id}")
+    rows = cursor.fetchall()
+    conn.close()
+
+    workouts = [dict(row) for row in rows]
+    return jsonify(workouts), 200
 
 
 if __name__ == '__main__':

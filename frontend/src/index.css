@@ -6,10 +6,11 @@
 
 
 :root {
-  --font-size-h1: 30px;
-  --font-size-h2: 15px;
-  --font-size-label: 13px;
-  --font-size-body: 14px;
+  --font-size-h1: 64px;
+  --font-size-h2: 32px;
+  --font-size-h3: 16px;
+  --font-size-label: 14px;
+  --font-size-body: 16px;
   --font-size-button: 16px;
   --font-size-caption: 12px;
 
@@ -26,7 +27,8 @@
 :root {
 
   /* ---------- PRIMARY (blue — brand, accents) ---------- */
-  --color-primary-50:  #EAF1FF; /* background for active menu item, highlights */
+  --color-primary-0: #EAF1FF;
+  --color-primary-50:  #e2ecff; /* background for active menu item, highlights */
   --color-primary-100: #D0E1FF; /* background for blue badges/notifications */
   --color-primary-400: #3B82F6; /* secondary accents, link icons */
   --color-primary-600: #0364FF; /* MAIN color — buttons, links, focus rings */

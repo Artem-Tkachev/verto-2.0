@@ -1,17 +1,19 @@
 import { useState } from "react";
 import "./UIComponents.css";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
+import { Link, NavLink } from "react-router";
 
-export function Input({placeholder, type, onChange, variant="primary", label, icon: Icon , className=""}){
+export function Input({placeholder, type="none", onChange, variant="primary", label, icon: Icon , className="", value}){
     return(
-        <div className="inp-group">
+        <div className={`inp-group inp-group-${variant}`}>
             <label className="inp-label">{label}</label><br/>
             <div className="inp-wrapper">
-                {Icon && <Icon className="inp-icon inp-icon-left"/>}
+                {Icon && <Icon className={`inp-icon inp-icon-left inp-icon-${variant}`}/>}
                 <input 
                 placeholder={placeholder}
                 type={type} onChange={onChange} 
                 className={`inp inp-${variant} ${className}`}
+                value={value}
                 />
             </div>
         </div>
@@ -45,4 +47,28 @@ export function Button({variant ="primary", text, Class="", type="submit"}){
             {text}
         </button>
     )
-} 
+}
+
+export function ButtonIcon({variant ="primary", text, Class="", type="submit", icon:Icon}){
+    return(
+        <div className="btn-wrapper">
+            {Icon && <Icon className="inp-icon inp-icon-left"/>}
+            <button className={`btn btn-${variant} ${Class}`} type={type}>{text}</button>
+        </div>
+    )
+}
+
+export function Li({text, icon: Icon, link, end = false}){
+    return(
+        <div className="Li-wrap">
+            <li className="li-link-wrap"><NavLink to={link} className={({isActive}) => isActive ? "li-nav-active li-link" : "li-nav li-link"} end={end}>
+                {({isActive}) =>(
+                    <>
+                        {Icon && <Icon className={isActive ? "li-icon-active" : "li-icon"}/>}
+                        {text}
+                    </>
+                )}
+            </NavLink></li>
+        </div>
+    )
+}

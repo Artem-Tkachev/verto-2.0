@@ -1,11 +1,12 @@
 import { useState } from "react";
+import './dashboard.css';
 
 function Dashboard(){
     return(
-        <div>
-            <p>u r in Dashboard</p>
-        </div>
+            <div className="main-dashboard">
+                <p>main</p>
+            </div>
     )
 }
 
-export default Dashboard
+export default Dashboard;

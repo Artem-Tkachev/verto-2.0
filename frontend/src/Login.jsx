@@ -35,7 +35,7 @@ function Login(){
 
   return (
     <div className="login-body">
-      <div className="header">
+      <div className="header-login">
         <h1 className="header-text-1">Welcome back</h1>
         <h2 className="header-text-2">Precision training for elite perfomance</h2>
       </div>

@@ -1,0 +1,14 @@
+#root{
+    width: 100%;
+}
+
+.dashboard-layout{
+    display: flex;
+    min-height: 100vh;
+}
+
+.main{
+    background-color: var(--color-neutral-50);
+    display: flex;
+    width: 100%;
+}

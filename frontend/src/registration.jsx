@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Navigate, useNavigate, Link } from "react-router";
 import { Input, Button, PasswordInput } from "./UIComponents"; 
 import { Mail, User, EyeIcon, EyeOffIcon, LockKeyhole } from "lucide-react";
-import './UIComponents.css'
+import './UIComponents.css';
 
 function Registration(){
   const [username, setUsername] = useState("");
@@ -33,9 +33,9 @@ function Registration(){
 
   return (
     <div className="login-body">
-      <div className="header">
-        <div><h1 className="header-text-1 text">Create your account</h1></div>
-        <div><h2 className="header-text-2 text">Join Ver  to to start tracking your elite perfomance</h2><br/></div>
+      <div className="header-login">
+        <h1 className="header-text-1 text">Create your account</h1>
+        <h2 className="header-text-2 text">Join Ver  to to start tracking your elite perfomance</h2>
       </div>
       <div>
         <form className="login-form" onSubmit={RegSubmit}>
@@ -51,7 +51,7 @@ function Registration(){
         </form>
       </div>
       
-      <p className="body-text">{message}</p>
+      <p className="error-text">{message}</p>
     </div>
   )
 }
