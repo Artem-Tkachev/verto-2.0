@@ -40,8 +40,8 @@ function Login(){
         <h2 className="header-text-2">Precision training for elite perfomance</h2>
       </div>
       <form onSubmit={loginSubmit} className="login-form">
-        <Input placeholder="username" type="text" label="Username or Email" icon={User} value={username} onChange={(e) => setUsername(e.target.value)} className={fieldErrors.includes("username") ? "inp-error": ""}/>
-        <PasswordInput placeholder="password" type="password" label="Password" icon={LockKeyhole} value={password} onChange={(e) => setPassword(e.target.value)} className={fieldErrors.includes("password") ? "inp-error": ""}/>
+        <Input placeholder="Username" type="text" label="Username or Email" icon={User} value={username} onChange={(e) => setUsername(e.target.value)} className={fieldErrors.includes("username") ? "inp-error": ""}/>
+        <PasswordInput placeholder="Password" type="password" label="Password" icon={LockKeyhole} value={password} onChange={(e) => setPassword(e.target.value)} className={fieldErrors.includes("password") ? "inp-error": ""}/>
         <div className="error-body"><p className="error-text">{message}</p></div>
         <Button type="submit" text="Sign In to Dashboard"/>
         <div className="bottom-body">

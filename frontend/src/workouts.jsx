@@ -1,8 +1,9 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button, ButtonIcon, Input } from "./UIComponents"
 import { useNavigate, Link } from "react-router";
 import "./workouts.css"
-import { Dumbbell, Zap, CircleCheck, Download, Upload } from "lucide-react";
+import { Dumbbell, Zap, CircleCheck, Download, Upload,  } from "lucide-react";
+
 
 export function CreateWorkout(){
     const [workoutName, setWorkoutName] = useState();
@@ -12,6 +13,8 @@ export function CreateWorkout(){
     const [workoutDuration, setWorkoutDuration] = useState();
     const [message, setMessage] = useState();
     const token = localStorage.getItem("token");
+    const navigate = useNavigate();
+
 
     async function RegSubmit(e){
         e.preventDefault();
@@ -32,6 +35,7 @@ export function CreateWorkout(){
         }
         else{
             setMessage(data.error);
+            navigate("/login");
         }
     }
 
@@ -91,6 +95,25 @@ export function CreateWorkout(){
 }
 
 export function Workouts(){
+    const [workouts, setWorkouts] = useState([]);
+    const navigate = useNavigate();
+    
+
+    useEffect(() => {
+        async function fetchWorkouts() {
+            const token = localStorage.getItem("token");
+            const response = await fetch("http://localhost:5000/api/workouts/mine", {
+                headers: { "Authorization": "Bearer " + token}
+            });
+            const data = await response.json();
+            if (!response.ok){
+                navigate("/login");
+            }
+            setWorkouts(data);
+        }
+        fetchWorkouts();
+    }, []);
+
 
     return(
         <div className="main-dashboard">
@@ -104,11 +127,21 @@ export function Workouts(){
                 </Link>
             </div>
             <div className="statystic-block">
-                <div>
-
-                </div>
+                
             </div>
-            
+            <div className="workout-cards">
+                {workouts.map((workout) => (
+                    <div key={workout.id} className="workout-card">
+                        <div className="workout-card-name-block">
+                            <p className="workout-card-name">{workout.title}</p>
+                            <p className="workout-card-type">{workout.type}</p>
+                        </div>
+                        <p className="workout-card-date">{workout.date}</p>
+                        <p className="workout-card-distance">{workout.distance}</p>
+                        <p className="workout-card-duration">{workout.duration}</p>
+                    </div>
+                ))}
+            </div>
         </div>
     )
 }

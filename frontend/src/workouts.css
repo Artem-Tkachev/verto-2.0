@@ -144,3 +144,29 @@
 }
 
 .btn-upload:hover{background-color: var(--color-primary-700);}
+
+.workout-card{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    background-color: var(--color-neutral-0);
+    padding: 12px 24px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    align-items: center;
+}
+
+.workout-card-name-block{
+    line-height: 20px;
+}
+
+.workout-card-name{
+    font-size: var(--font-size-title);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-neutral-900);
+}
+
+.workout-card-type{
+    font-size: var(--font-size-caption);
+    color: var(--color-neutral-600);
+}
