@@ -14,7 +14,7 @@ function Registration(){
   async function RegSubmit(e){
     e.preventDefault();
     
-    const response = await fetch("http://localhost:5000/api/register", {
+    const response = await fetch("https://verto.photoquest.ru/api/register", {
       method: "POST",
       headers: { "Content-Type": "application/json"},
       body: JSON.stringify({username: username, password: password, confPassword: confPassword})

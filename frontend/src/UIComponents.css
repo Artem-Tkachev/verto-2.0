@@ -184,3 +184,24 @@ body{
 .link-text:hover{
     color: var(--color-primary-700);
 }
+
+
+.initials-avatar{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: var(--font-weight-semibold);
+}
+
+.initials-avatar-profile{
+    width: 60px;
+    height: 60px;
+}
+
+.initials-avatar-default{
+    background-color: brown;
+}

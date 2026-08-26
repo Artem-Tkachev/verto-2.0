@@ -19,7 +19,7 @@ export function CreateWorkout(){
     async function RegSubmit(e){
         e.preventDefault();
         
-        const response = await fetch("http://localhost:5000/api/workouts", {
+        const response = await fetch("https://verto.photoquest.ru/api/workouts", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -102,7 +102,7 @@ export function Workouts(){
     useEffect(() => {
         async function fetchWorkouts() {
             const token = localStorage.getItem("token");
-            const response = await fetch("http://localhost:5000/api/workouts/mine", {
+            const response = await fetch("https://verto.photoquest.ru/api/workouts/mine", {
                 headers: { "Authorization": "Bearer " + token}
             });
             const data = await response.json();

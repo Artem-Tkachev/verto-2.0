@@ -19,6 +19,7 @@ cursor.execute("CREATE TABLE IF NOT EXISTS routes (id INTEGER PRIMARY KEY, name 
 cursor.execute("CREATE TABLE IF NOT EXISTS favorites (id INTEGER PRIMARY KEY, user_id INTEGER, route_id INTEGER, FOREIGN KEY (user_id) REFERENCES users(id), FOREIGN KEY (route_id) REFERENCES routes(id))") #db for favorites
 cursor.execute("CREATE TABLE IF NOT EXISTS challenges (id INTEGER PRIMARY KEY, from_user_id INTEGER, to_user_id INTEGER, route_id INTEGER, status TEXT, FOREIGN KEY (from_user_id) REFERENCES users(id), FOREIGN KEY (to_user_id) REFERENCES users(id), FOREIGN KEY (route_id) REFERENCES routes(id))") #db for challenges
 cursor.execute("CREATE TABLE IF NOT EXISTS workouts (id INTEGER PRIMARY KEY, user_id INTEGER, title TEXT, type TEXT, distance FLOAT, duration INTEGER, route_id INTEGER, date DATETIME, created_at DATETIME, FOREIGN KEY (user_id) REFERENCES users(id), FOREIGN KEY (route_id) REFERENCES route(id))") #db for workouts.
+cursor.execute("CREATE TABLE IF NOT EXISTS follows (id INTEGER PRIMARY KEY, follower_id INTEGER, following_id INTEGER, created_at DATETIME, FOREIGN KEY (follower_id) REFERENCES users(id), FOREIGN KEY (following_id) REFERENCES users(id))")
 
 conn.commit()
 conn.close()
