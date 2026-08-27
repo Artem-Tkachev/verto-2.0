@@ -135,7 +135,7 @@ def create_workout():
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
 
-    cursor.execute(f"INSERT INTO workouts (user_id, title, type, distance, duration, route_id, date, created_at) values ('{user_id}', '{title}', '{workout_type}', '{distance_sql}', '{duration}', '{route_id}', '{workout_date}', datetime('now'))")
+    cursor.execute(f"INSERT INTO workouts (user_id, title, type, distance, duration, route_id, date, created_at) values ('{user_id}', '{title}', '{workout_type}', {distance_sql}, '{duration}', '{route_id}', '{workout_date}', datetime('now'))")
 
     conn.commit()
     conn.close()
