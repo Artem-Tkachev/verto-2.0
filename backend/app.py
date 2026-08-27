@@ -6,7 +6,7 @@ import datetime
 
 SECRET_KEY = "123QWEASD"
 
-app =  Flask(__name__)
+app =  Flask(__name__, static_folder='../frontend/dist', static_url_path='')
 CORS(app)
 
 conn = sqlite3.connect("verto.db")
@@ -30,7 +30,7 @@ conn.close()
 
 @app.route('/')
 def home():
-    return jsonify({"message": "Welcome to the Flask API!"})
+    return app.send_static_file('index.html')
 
 @app.route('/api/register', methods=['POST'])
 def registration():
@@ -212,6 +212,15 @@ def dashboard():
 
 
     return jsonify(workouts, username, workouts_number, distance_number), 200
+
+# SPA fallback: любой не-API путь отдаёт index.html,
+# чтобы клиентские маршруты React Router работали при перезагрузке страницы
+@app.errorhandler(404)
+def spa_fallback(e):
+    if request.path.startswith('/api/'):
+        return jsonify({"error": "Not found"}), 404
+    return app.send_static_file('index.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
