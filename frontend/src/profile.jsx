@@ -18,9 +18,9 @@ function Profile(){
                 headers: {"Authorization": "Bearer " + token}
             });
             const data = await responce.json();
-            if(!responce.ok){
+            /*if(!responce.ok){
                 navigate("/login");
-            }
+            }*/
             setUsername(data.username);
             setUserID(data.userID);
             setFollowers(data.followers);
