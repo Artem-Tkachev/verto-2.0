@@ -14,11 +14,11 @@ function Profile(){
     useEffect(() => {
         async function fetchProfile() {
             const token = localStorage.getItem("token");
-            const responce = await fetch("https://verto.photoquest.ru/api/users/me", {
+            const response = await fetch("https://verto.photoquest.ru/api/users/me", {
                 headers: {"Authorization": "Bearer " + token}
             });
-            const data = await responce.json();
-            /*if(!responce.ok){
+            const data = await response.json();
+            /*if(!response.ok){
                 navigate("/login");
             }*/
             setUsername(data.username);

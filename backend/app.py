@@ -211,7 +211,12 @@ def dashboard():
     distance_number = sum(float(row["distance"] or 0) for row in workouts)
 
 
-    return jsonify(workouts, username, workouts_number, distance_number), 200
+    return jsonify({
+        "workouts": workouts,
+        "username": username,
+        "workouts_number": workouts_number,
+        "distance_number": distance_number
+    }), 200
 
 @app.route('/api/users/me')
 def mineProfile():
@@ -252,7 +257,13 @@ def mineProfile():
 
     conn.close()
 
-    return jsonify(username, user_id, followers, following, workouts), 200
+    return jsonify({
+        "username" : username,
+        "user_id": user_id,
+        "followers": followers,
+        "following": following,
+        "workouts": workouts
+    }), 200
 
 
 # SPA fallback: любой не-API путь отдаёт index.html,
