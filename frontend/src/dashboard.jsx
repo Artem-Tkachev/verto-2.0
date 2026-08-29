@@ -32,6 +32,7 @@ function Dashboard(){
     return(
             <div className="main-dashboard">
                 <p>{username}</p>
+                <p>{workoutsAmount}</p>
             </div>
     )
 }

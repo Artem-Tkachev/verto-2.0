@@ -213,6 +213,48 @@ def dashboard():
 
     return jsonify(workouts, username, workouts_number, distance_number), 200
 
+@app.route('/api/users/me')
+def mineProfile():
+    auth_header = request.headers.get("Authorization")
+            
+    if not auth_header:
+        return jsonify({"error": "token is not provided"}), 401
+    
+    token = auth_header.split(" ")[1]
+
+    try:
+        decoded = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+        user_id = decoded["user_id"]
+    except jwt.ExpiredSignatureError:
+        return jsonify({"error": "token is expired"}), 401
+    except jwt.InvalidTokenError:
+        return jsonify({"error": "token is invalid"}), 401
+
+    conn = sqlite3.connect('verto.db')
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    cursor.execute(f"SELECT * FROM users WHERE id = {user_id}")
+    result = cursor.fetchone()
+    username = result["username"]
+
+    cursor.execute(f"SELECT * FROM follows WHERE following_id = {user_id}")
+    result = cursor.fetchall()
+    followers = len(result)
+
+    cursor.execute(f"SELECT * FROM follows WHERE follower_id = {user_id}")
+    result = cursor.fetchall()
+    following = len(result)
+
+    cursor.execute(f"SELECT * FROM workouts WHERE user_id = {user_id}")
+    result = cursor.fetchall()
+    workouts = len(result)
+
+    conn.close()
+
+    return jsonify(username, user_id, followers, following, workouts), 200
+
+
 # SPA fallback: любой не-API путь отдаёт index.html,
 # чтобы клиентские маршруты React Router работали при перезагрузке страницы
 @app.errorhandler(404)
