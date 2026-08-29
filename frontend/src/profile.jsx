@@ -14,7 +14,7 @@ function Profile(){
     useEffect(() => {
         async function fetchProfile() {
             const token = localStorage.getItem("token");
-            const response = await fetch("https://verto.photoquest.ru/api/users/me", {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/users/me`, {
                 headers: {"Authorization": "Bearer " + token}
             });
             const data = await response.json();
@@ -22,10 +22,10 @@ function Profile(){
                 navigate("/login");
             }*/
             setUsername(data.username);
-            setUserID(data.userID);
+            setUserID(data.user_id);
             setFollowers(data.followers);
             setFollowing(data.following);
-            setWorkoutsNumber(data.workoutsNumber);
+            setWorkoutsNumber(data.workouts);
         }
         fetchProfile();
     }, []);
@@ -37,7 +37,7 @@ function Profile(){
                     <InitialsAvatar username={username} variant="profile"/>
                 </div>
                 <div className="profile-header-name-box">
-                    <p className="profile-header-name">{username}</p>
+                    <p className="profile-header-name body-text-h1">{username}</p>
                     <p className="profile-header-id">{userID}</p>
                 </div>
                 <div className="profile-header-data">

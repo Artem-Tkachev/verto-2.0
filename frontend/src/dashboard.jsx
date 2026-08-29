@@ -14,7 +14,7 @@ function Dashboard(){
     useEffect(() => {
         async function loadDashboard() {
             const token = localStorage.getItem("token");
-            const responce = await fetch("https://verto.photoquest.ru/api/dashboard", {
+            const responce = await fetch(`${import.meta.env.VITE_API_URL}/api/dashboard`, {
                 headers: {"Authorization": "Bearer " + token}
             });
             const data = await responce.json();
