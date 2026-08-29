@@ -73,23 +73,24 @@ export function Li({text, icon: Icon, link, end = false}){
     )
 }
 
-export function InitialsAvatar({username, variant="primary"}){
+const colors = ["#0364FF", "#16A34A", "#D97706", "#DC2626", "#7C3AED"];
+
+function getColor(username) {
+    const index = username.charCodeAt(0) % colors.length;
+    return colors[index];
+}
+
+export function InitialsAvatar({ username, variant = "primary" }) {
     if (!username) {
         return <div className={`initials-avatar initials-avatar-default initials-avatar-${variant}`}>?</div>;
     }
 
     const initials = username.charAt(0).toUpperCase();
     const color = getColor(username);
-    const colors = ["#0364FF", "#16A34A", "#D97706", "#DC2626", "#7C3AED"];
 
-    function getColor(username){
-        const index = username.charCodeAt(0) % colors.length;
-        return colors[index];
-    }
-
-    return(
-        <div className={`initials-avatar initials-avatar-${variant}`} style={{backgroundColor: color}}>
+    return (
+        <div className={`initials-avatar initials-avatar-${variant}`} style={{ backgroundColor: color }}>
             {initials}
         </div>
-    )
+    );
 }
