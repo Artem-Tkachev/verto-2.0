@@ -185,7 +185,6 @@ body{
     color: var(--color-primary-700);
 }
 
-
 .initials-avatar{
     width: 40px;
     height: 40px;
@@ -200,6 +199,7 @@ body{
 .initials-avatar-profile{
     width: 160px;
     height: 160px;
+    font-size: 50px;
 }
 
 .initials-avatar-default{

@@ -18,7 +18,7 @@ export function Slidebar(){
                 <Li icon={CirclePlus} text="New Workout" link="/workouts/upload"/>
                 <Li icon={UserSearch} text="Search Users" link="/search"/>
                 <Li icon={Trophy} text="Challenges" link="/challenges"/>
-                <Li icon={CircleUser} text="Profile" link="/profile"/>
+                <Li icon={CircleUser} text="Profile" link="/profile" end={true}/>
             </ul>
         </div>
         <div className="profile-box">
@@ -38,7 +38,7 @@ export function Slidebar(){
 export function SearchBar(){
     return(
         <div>
-            <Input placeholder="Search workout programs..." type="search" />
+            <Input placeholder="Search workout programs..." type="search" variant="search-workouts"/>
         </div>
     )
 }

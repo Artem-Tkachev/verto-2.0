@@ -90,7 +90,7 @@ def login():
     token = jwt.encode(
         {
             "user_id": result['id'],
-            "exp": datetime.datetime.now(datetime.UTC) + datetime.timedelta(hours=3)
+            "exp": datetime.datetime.now(datetime.UTC) + datetime.timedelta(days=30)
         },
         SECRET_KEY,
         algorithm="HS256"
@@ -239,21 +239,17 @@ def mineProfile():
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
 
-    cursor.execute(f"SELECT * FROM users WHERE id = {user_id}")
-    result = cursor.fetchone()
-    username = result["username"]
+    cursor.execute(f"SELECT username FROM users WHERE id = {user_id}")
+    username = cursor.fetchone()
+     
+    cursor.execute(f"SELECT COUNT(*) FROM follows WHERE following_id = {user_id}")
+    followers = cursor.fetchone()[0]
 
-    cursor.execute(f"SELECT * FROM follows WHERE following_id = {user_id}")
-    result = cursor.fetchall()
-    followers = len(result)
+    cursor.execute(f"SELECT COUNT(*) FROM follows WHERE follower_id = {user_id}")
+    following = cursor.fetchone()[0]
 
-    cursor.execute(f"SELECT * FROM follows WHERE follower_id = {user_id}")
-    result = cursor.fetchall()
-    following = len(result)
-
-    cursor.execute(f"SELECT * FROM workouts WHERE user_id = {user_id}")
-    result = cursor.fetchall()
-    workouts = len(result)
+    cursor.execute(f"SELECT COUNT(*) FROM workouts WHERE user_id = {user_id}")
+    workouts = cursor.fetchone()[0]
 
     conn.close()
 
@@ -265,6 +261,51 @@ def mineProfile():
         "workouts": workouts
     }), 200
 
+@app.route('/api/users/search')
+def searchUser():
+    query = request.args.get("q", "")
+    if(not query):
+        return jsonify([]), 200
+
+    conn = sqlite3.connect("verto.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    cursor.execute(f"SELECT * FROM users WHERE username LIKE '%{query}%' LIMIT 10")
+    rows = cursor.fetchall()
+    conn.close()
+
+    users = [dict(row) for row in rows]
+    return jsonify(users), 200
+
+@app.route('/api/users/count')
+def usersCount():
+    conn = sqlite3.connect("verto.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT COUNT(*) FROM users")
+    count = cursor.fetchone()[0]
+    conn.close()
+
+    return jsonify(count), 200
+
+@app.route('/api/users/<username>')
+def publicProfile(username):
+    conn = sqlite3.connect("verto.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    cursor.execute(f"SELECT id FROM users WHERE username = {username}")
+    userID = cursor.fetchone()
+
+    cursor.execute(f"SELECT COUNT()")
+
+    
+    return jsonify({
+        "userID": userID,
+
+    }), 200
 
 # SPA fallback: любой не-API путь отдаёт index.html,
 # чтобы клиентские маршруты React Router работали при перезагрузке страницы

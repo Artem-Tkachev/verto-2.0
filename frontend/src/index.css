@@ -14,6 +14,7 @@
   --font-size-title: 20px;
   --font-size-caption: 10px;
 
+  --font-weight-thin: 300;
   --font-weight-regular: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
@@ -27,9 +28,13 @@
 :root {
 
   /* ---------- PRIMARY (blue — brand, accents) ---------- */
-  --color-primary-0: #EAF1FF;
-  --color-primary-50:  #e2ecff; /* background for active menu item, highlights */
-  --color-primary-100: #D0E1FF; /* background for blue badges/notifications */
+  --color-primaru-0: #e8effe;
+  --color-primary-1: #EAF1FF;
+  --color-primary-50:  #ced3e5; /* background for active menu item, highlights */
+  --color-primary-70:  #e2ecff; /* background for active menu item, highlights */
+
+  --color-primary-150: #D0E1FF; /* background for blue badges/notifications */
+  --color-primary-100: #5d89bf; /* background for blue badges/notifications */
   --color-primary-400: #3B82F6; /* secondary accents, link icons */
   --color-primary-600: #0364FF; /* MAIN color — buttons, links, focus rings */
   --color-primary-700: #0248BF; /* hover/active state of the main button */

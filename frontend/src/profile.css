@@ -1,3 +1,103 @@
 .profile-header{
     display: flex;
+    color: var(--color-neutral-700);
+}
+
+.profile-picture{
+    margin-right: 24px;
+}
+
+.profile-header-name{
+    font-size: var(--font-size-h1);
+    color: var(--color-neutral-900);
+    font-weight: var(--font-weight-medium);
+}
+
+.profile-header-id{
+    font-size: var(--font-size-h3);
+    margin-top: -12px;
+}
+
+.profile-header-data{
+    display: flex;
+    margin-top: 12px;
+}
+
+.profile-header-data-left{
+    border-right: 1px solid var(--color-neutral-700);
+    padding-right: 24px;
+    margin-right: 24px;
+}
+
+.followers-number{
+    color: var(--color-neutral-900);
+    font-weight: var(--font-weight-semibold);
+}
+
+.profile-header-data-box{
+    display: flex;
+    gap: 10px
+}
+
+
+.search-header{
+    display: flex;
+    align-items:last baseline;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.search-body-text{
+    font-weight: var(--font-weight-thin);
+    color: var(--color-neutral-700);
+    font-size: var(--font-size-title);
+}
+
+.search-active-box{
+    display: flex;
+    background-color: var(--color-primary-50);
+    font-size: var(--font-size-label);
+    color: var(--color-neutral-700);
+    border-radius: 12px;
+    padding: 12px 24px;
+    height: fit-content;
+    width: fit-content;
+    align-items: center;
+    gap: 20px;
+}
+
+.search-active-icon{
+    width: 16px;
+    height: 16px;
+}
+
+.search-main-input{
+    display: flex;
+    margin-top: 48px;
+    align-items: center;
+}
+
+.inp-search{
+    width: 100%;
+    padding: 16px 24px;
+    padding-left: 74px;
+    background-color: var(--color-neutral-0);
+    border-radius: 12px;
+    border: 2px solid var(--color-neutral-300);
+    font-size: var(--font-size-title);
+}
+
+.inp-search:hover{
+    border: 2px solid var(--color-neutral-400);
+}
+
+.inp-search:focus{
+    border: 2px solid var(--color-primary-600);
+    outline: none;
+}
+
+.inp-search-icon{
+    position: absolute;
+    margin-left: 24px;
+    color: var(--color-primary-600);
 }

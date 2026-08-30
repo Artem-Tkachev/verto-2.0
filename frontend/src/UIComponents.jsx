@@ -31,6 +31,7 @@ export function PasswordInput({placeholder, type, onChange, variant="primary", l
                 placeholder={placeholder}
                 type={visible ? "text" : "password"} onChange={onChange} 
                 className={`inp inp-${variant} ${className}`}
+                autoComplete="new-password"
                 />
                 <button type="button" className="inp-icon inp-icon-right" onClick={() => setvisible(v => !v)}>
                     {visible ? <EyeOffIcon/> : <EyeIcon/>}
