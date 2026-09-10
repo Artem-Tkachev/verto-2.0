@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { Button, ButtonIcon, Input } from "./UIComponents"
 import { useNavigate, Link } from "react-router";
 import "./workouts.css"
-import { Dumbbell, Zap, CircleCheck, Download, Upload,  } from "lucide-react";
+import { Dumbbell, Zap, CircleCheck, Download, Upload, LayoutGrid, List,  } from "lucide-react";
 
 
 export function CreateWorkout(){
@@ -65,7 +65,7 @@ export function CreateWorkout(){
                             <div className="inp-group inp-group-workout">
                                 <label className="inp-label">Type</label><br/>
                                 <select className="inp inp-select inp-workout" value={workoutType} onChange={(e) => setWorkoutType(e.target.value)}>
-                                    <option >Running</option>
+                                    <option>Running</option>
                                     <option>Walking</option>
                                     <option>Cycling</option>
                                     <option>Swimming</option>
@@ -97,6 +97,9 @@ export function CreateWorkout(){
 export function Workouts(){
     const [workouts, setWorkouts] = useState([]);
     const navigate = useNavigate();
+    const [period, setPeriod] = useState(30);
+    const [workoutType, setWorkoutType] = useState();
+    const [distance, setDistance] = useState();
     
 
     useEffect(() => {
@@ -109,7 +112,8 @@ export function Workouts(){
             if (!response.ok){
                 navigate("/login");
             }
-            setWorkouts(data);
+            setWorkouts(data.workouts);
+            setDistance(data.distance);
         }
         fetchWorkouts();
     }, []);
@@ -126,9 +130,46 @@ export function Workouts(){
                     <p>Upload workout</p>
                 </Link>
             </div>
-            <div className="statystic-block">
+            <div className="statistic-block">
+                <div className="statistic-falldown-block">
+                    <div className="statistic-falldowns">
+                        <div className="statistic-falldown">
+                            <p className="statistic-header inp-label">Period</p>
+                            <select className="inp-select inp-period" value={period} onChange={(e) => setPeriod(e.target.value)}>   
+                                <option value={3}>Last 3 days</option>
+                                <option value={10}>Last 10 days</option>
+                                <option value={30}>Last 30 days</option>
+                                <option value={0}>All period</option>
+                            </select>
+                        </div>
+                        <div className="statistic-falldown">
+                            <p className="statistic-header inp-label">Activity Type</p>
+                            <select className="inp-select inp-period" value={workoutType} onChange={(e) => setWorkoutType(e.target.value)}>
+                                <option value="0">All types</option>
+                                <option>Running</option>
+                                <option>Walking</option>
+                                <option>Cycling</option>
+                                <option>Swimming</option>
+                                <option>Hiking</option>
+                                <option>Strength Training</option>
+                                <option>Yoga</option>
+                                <option>HIIT</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div className="statistic-icons">
+                        <LayoutGrid className="statistic-icon"/>
+                        <List className="statistic-icon"/>
+                    </div>
+                </div>
                 
+                <div className="distance-box">
+                    <p className="distance-header">Total for week</p>
+                    <p className="distance-box-amount"><span className="dashboard-h2     dashboard-distance">{distance}</span> KM</p>
+                </div>
             </div>
+
             <div className="workout-cards">
                 {workouts.map((workout) => (
                     <div key={workout.id} className="workout-card">

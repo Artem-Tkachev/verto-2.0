@@ -7,6 +7,83 @@
     min-height: 100vh;
 }
 
+.dashboard-header{
+    background-color: var(--color-primary-600);
+    padding: 32px;
+    color: var(--color-neutral-50);
+    border-radius: 12px;
+}
+
+.text-h1-dashboard{
+    font-size: var(--font-size-h1);
+    font-weight: var(--font-weight-semibold);
+}
+
+.dashboard-header-buttons{
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    gap: 12px;
+}
+
+.btn-dashboard{
+    width: 300px;
+    height: fit-content;
+}
+
+.dashboard-statistic{
+    display: flex;
+    justify-content: space-between;
+    padding-top: 32px;
+}
+
+.statistic-box{
+    background-color: var(--color-neutral-0);
+    padding: 24px;
+    border-radius: 12px;
+    width: calc(33% - 16px);
+}
+
+.statistic-icon-box{
+    background-color: var(--color-primary-150);
+    padding: 12px;
+    width: fit-content;
+    border-radius: 12px;
+    color: var(--color-primary-600);
+}
+
+.dashboard-h1{
+    font-size: var(--font-size-h1);
+    font-weight: var(--font-weight-medium);
+}
+
+.dashboard-h2{
+    font-size: var(--font-size-h2);
+    font-weight: var(--font-weight-medium);
+}
+
+.dashboard-main-content{
+    display: flex;
+    padding-top: 48px;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.activities-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center ;
+    padding-bottom: 12px;
+}
+
+.recent-activities{
+    width: calc(66%);
+}
+
+.goal-progress{     
+    width: calc(33% - 16px);
+}
+
 .main{
     background-color: var(--color-neutral-50);
     display: flex;

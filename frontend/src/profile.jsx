@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { InitialsAvatar } from "./UIComponents";
+import { Button, ButtonIcon, InitialsAvatar } from "./UIComponents";
 import "./profile.css"
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Search, Users } from "lucide-react";
+import { Search, UserCheck, UserPlus, Users } from "lucide-react";
 
 export function Profile(){
     const [username, setUsername] = useState("");
@@ -116,23 +116,49 @@ export function ShowProfile(){
     const [workoutsNumber, setWorkoutsNumber] = useState();
     const navigate = useNavigate();
     const {username} = useParams();
+    const [isFollowed, setIsFollowed] = useState();
 
     useEffect(() => {
         async function fetchProfile() {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/users/${username}`);
+            const token = localStorage.getItem("token");
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/users/${username}`, {
+                headers: {"Authorization": "Bearer " + token}
+            });
             const data = await response.json();
             if(response.status == 401){
                 navigate("/login");
                 return;
             }
-            setUsername(data.username);
-            setUserID(data.user_id);
+            setUserID(data.userID);
             setFollowers(data.followers);
             setFollowing(data.following);
-            setWorkoutsNumber(data.workouts);
+            setWorkoutsNumber(data.workoutsNumber);
+            setIsFollowed(data.isFollowed);
         }
         fetchProfile();
-    }, []);
+    }, [isFollowed]);
+
+    async function handleFollow() {
+        const token = localStorage.getItem("token");
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/users/${username}/follow`, {
+            headers: {"Authorization": "Bearer " + token},
+            method: "POST"
+        });
+        if(response.ok){
+            setIsFollowed(true);
+        }
+    }
+
+    async function handleUnfollow() {
+        const token = localStorage.getItem("token");
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/users/${username}/unfollow`, {
+            headers: {"Authorization": "Bearer " + token},
+            method: "DELETE"
+        });
+        if(response.ok){
+            setIsFollowed(false);
+        }
+    }
 
     return(
         <div className="main-dashboard">
@@ -155,6 +181,13 @@ export function ShowProfile(){
                             <p>FOLLOWING</p>
                         </div>
                     </div>
+                </div>
+                <div className="profile-header-follows">
+                    {isFollowed ? (
+                        <ButtonIcon text="Following" icon={UserCheck} variant="secondary" onClick={handleUnfollow}/>
+                    ) : (
+                        <ButtonIcon text="Follow" icon={UserPlus} variant="primary" onClick={handleFollow}/>
+                    )}
                 </div>
             </div>
         </div>

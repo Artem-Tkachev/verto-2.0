@@ -42,19 +42,19 @@ export function PasswordInput({placeholder, type, onChange, variant="primary", l
     );
 }
 
-export function Button({variant ="primary", text, Class="", type="submit"}){
+export function Button({variant ="primary", text, Class="", type="submit", onClick={}}){
     return(
-        <button className={`btn btn-${variant} ${Class}`} type={type}>
+        <button className={`btn btn-${variant} ${Class}`} type={type} onClick={onClick}>
             {text}
         </button>
     )
 }
 
-export function ButtonIcon({variant ="primary", text, Class="", type="submit", icon:Icon}){
+export function ButtonIcon({variant ="primary", text, Class="", type="submit", icon:Icon, onClick={}}){
     return(
         <div className="btn-wrapper">
             {Icon && <Icon className="inp-icon inp-icon-left"/>}
-            <button className={`btn btn-${variant} ${Class}`} type={type}>{text}</button>
+            <button className={`btn btn-icon-left btn-${variant} ${Class}`} type={type} onClick={onClick}>{text}</button>
         </div>
     )
 }

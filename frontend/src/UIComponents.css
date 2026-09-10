@@ -121,10 +121,20 @@ body{
     width: 100%;
 }
 
+.btn-wrapper{
+    position: relative;
+}
+
 .btn{
     width: 100%;
     border-radius: 8px;
     padding: 12px 24px;
+    display: block;
+    text-align: center;
+}
+
+.btn-icon-left{
+    padding-left: 52px;
 }
 
 .btn-primary{
@@ -133,6 +143,14 @@ body{
 }
 
 .btn-primary:hover{
+    background-color: var(--color-primary-700);
+}
+
+.btn-primary-hole{
+    border: 2px solid var(--color-primary-400);
+}
+
+.btn-primary-hole:hover{
     background-color: var(--color-primary-700);
 }
 
@@ -204,4 +222,9 @@ body{
 
 .initials-avatar-default{
     background-color: brown;
+}
+
+.initials-avatar-sidebar{
+    width: 48px;
+    height: 48px;
 }

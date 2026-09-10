@@ -164,12 +164,16 @@ def show_workouts():
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
 
-    cursor.execute(f"SELECT * FROM workouts WHERE user_id = {user_id}")
+    cursor.execute(f"SELECT * FROM workouts WHERE user_id = {user_id} ORDER BY id DESC")
     rows = cursor.fetchall()
     conn.close()
 
     workouts = [dict(row) for row in rows]
-    return jsonify(workouts), 200
+    distance_number = sum(float(row["distance"] or 0) for row in workouts)
+    return jsonify({
+        "workouts": workouts,
+        "distance": distance_number,
+    }), 200
 
 
 @app.route('/api/workouts/<int:workout_id>')
@@ -201,8 +205,9 @@ def dashboard():
     result = cursor.fetchone()
     username = result['username']
 
-    cursor.execute(f"SELECT * FROM workouts WHERE user_id={user_id}")
-    rows = cursor.fetchall()
+    cursor.execute(f"SELECT * FROM workouts WHERE user_id={user_id} ORDER BY id DESC")
+    #rows = cursor.fetchall()
+    rows = cursor.fetchmany(3)
     conn.close()
 
     
@@ -239,8 +244,8 @@ def mineProfile():
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
 
-    cursor.execute(f"SELECT username FROM users WHERE id = {user_id}")
-    username = cursor.fetchone()
+    cursor.execute(f"SELECT * FROM users WHERE id = {user_id}")
+    username = cursor.fetchone()["username"]
      
     cursor.execute(f"SELECT COUNT(*) FROM follows WHERE following_id = {user_id}")
     followers = cursor.fetchone()[0]
@@ -292,20 +297,123 @@ def usersCount():
 
 @app.route('/api/users/<username>')
 def publicProfile(username):
+
+    auth_header = request.headers.get("Authorization")
+                
+        
+    token = auth_header.split(" ")[1]
+
+    
+    decoded = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+    user_id = decoded["user_id"]
+
     conn = sqlite3.connect("verto.db")
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
 
-    cursor.execute(f"SELECT id FROM users WHERE username = {username}")
-    userID = cursor.fetchone()
+    cursor.execute(f"SELECT id FROM users WHERE username = '{username}'")
+    result = cursor.fetchone()
 
-    cursor.execute(f"SELECT COUNT()")
+    if(not result):
+        conn.close
+        return jsonify({"error": "user is not found"})
 
-    
+    userID = result[0]
+
+    cursor.execute(f"SELECT COUNT(follower_id) FROM follows WHERE following_id = {userID}")
+    followers = cursor.fetchone()[0]
+
+    cursor.execute(f"SELECT COUNT(following_id) FROM follows WHERE follower_id = {userID}")
+    following = cursor.fetchone()[0]
+
+    cursor.execute(f"SELECT COUNT(id) FROM workouts WHERE user_id = {userID}")
+    workoutsNumber = cursor.fetchone()[0]
+
+    cursor.execute(f"SELECT * FROM follows WHERE follower_id = {user_id} AND following_id = {userID}")
+    result = cursor.fetchone()
+    isFollowed = False
+    if(result):
+        isFollowed = True
+
+    conn.close()
+        
     return jsonify({
         "userID": userID,
-
+        "followers": followers,
+        "following": following,
+        "workoutsNumber": workoutsNumber,
+        "isFollowed": isFollowed
     }), 200
+
+@app.route('/api/users/<username>/follow', methods=['POST'])
+def Subscribe(username):
+    auth_header = request.headers.get("Authorization")
+                
+    if not auth_header:
+        return jsonify({"error": "token is not provided"}), 401
+    
+    token = auth_header.split(" ")[1]
+
+    try:
+        decoded = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+        user_id = decoded["user_id"]
+    except jwt.ExpiredSignatureError:
+        return jsonify({"error": "token is expired"}), 401
+    except jwt.InvalidTokenError:
+        return jsonify({"error": "token is invalid"}), 401
+
+    conn = sqlite3.connect("verto.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    cursor.execute(f"SELECT id FROM users WHERE username = '{username}'")
+    result = cursor.fetchone()
+
+    if(not result):
+        conn.close()
+        return jsonify({"error": "user is not found"}), 401
+
+    subscribing_id = result[0]
+
+    cursor.execute(f"INSERT INTO follows (follower_id, following_id, created_at) VALUES ('{user_id}', '{subscribing_id}', datetime('now'))")
+    conn.commit()
+    conn.close()
+    return jsonify({"message": "user is succesfully followed"}), 200
+
+@app.route('/api/users/<username>/unfollow', methods=['DELETE'])
+def Unsubscribe(username):
+    auth_header = request.headers.get("Authorization")
+                    
+    if not auth_header:
+        return jsonify({"error": "token is not provided"}), 401
+    
+    token = auth_header.split(" ")[1]
+
+    try:
+        decoded = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+        user_id = decoded["user_id"]
+    except jwt.ExpiredSignatureError:
+        return jsonify({"error": "token is expired"}), 401
+    except jwt.InvalidTokenError:
+        return jsonify({"error": "token is invalid"}), 401
+
+    conn = sqlite3.connect("verto.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    cursor.execute(f"SELECT id FROM users WHERE username = '{username}'")
+    result = cursor.fetchone()
+
+    if(not result):
+        conn.close()
+        return jsonify({"error": "user is not found"}), 401
+
+    subscribing_id = result[0]
+
+    cursor.execute(f"DELETE FROM follows WHERE follower_id = '{user_id}' AND following_id = '{subscribing_id}'")
+    conn.commit()
+    conn.close()
+    return jsonify({"message": "user is succesfully unfollowed"}), 200
 
 # SPA fallback: любой не-API путь отдаёт index.html,
 # чтобы клиентские маршруты React Router работали при перезагрузке страницы
