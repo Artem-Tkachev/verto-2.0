@@ -278,6 +278,7 @@ def searchUser():
 
     cursor.execute(f"SELECT * FROM users WHERE username LIKE '%{query}%' LIMIT 10")
     rows = cursor.fetchall()
+    conn.commit()
     conn.close()
 
     users = [dict(row) for row in rows]

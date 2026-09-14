@@ -11,6 +11,8 @@ body{
 .login-body{
     padding-top: 100px;
     place-items: center;
+    display: flex;
+    flex-direction: column;
 }
 
 .header-login{

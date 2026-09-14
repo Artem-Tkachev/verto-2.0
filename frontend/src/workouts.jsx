@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { Button, ButtonIcon, Input } from "./UIComponents"
 import { useNavigate, Link } from "react-router";
 import "./workouts.css"
-import { Dumbbell, Zap, CircleCheck, Download, Upload, LayoutGrid, List,  } from "lucide-react";
+import { Dumbbell, Zap, CircleCheck, Upload, LayoutGrid, List,  } from "lucide-react";
 
 
 export function CreateWorkout(){
@@ -159,8 +159,8 @@ export function Workouts(){
                         </div>
                     </div>
                     <div className="statistic-icons">
-                        <LayoutGrid className="statistic-icon"/>
-                        <List className="statistic-icon"/>
+                        <div className="dashboard-statistic-icon-box"><LayoutGrid className="statistic-icon"/></div>
+                        <div className="dashboard-statistic-icon-box"><List className="statistic-icon"/></div>
                     </div>
                 </div>
                 

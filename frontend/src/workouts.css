@@ -219,5 +219,14 @@
 .statistic-icons{
     display: flex;
     align-items: center;
+    gap: 24px;
+}
 
+.statistic-icon{
+    color: var(--color-primary-600);
+}
+
+.dashboard-statistic-icon-box{
+    padding: 8px;
+    background-color: var(--color-primary-50);
 }
